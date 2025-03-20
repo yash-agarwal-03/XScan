@@ -1,12 +1,15 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
+from pymongo import MongoClient
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app=Flask(__name__)
 CORS(app)
 app.secret_key = 'your_secret_key'
 
-#sample data for now WILL BE REPLACED BY DB
-users = { }
+client = MongoClient("mongodb://localhost:27017/")
+db = client["user_database"]
+user_cl = db["users"] 
 
 #Register
 def handle_register(data):
@@ -21,11 +24,12 @@ def handle_register(data):
     if password != confirm_password:
         return {"success": False, "message": "Passwords do not match!"}
 
-    if email in users:
+    if user_cl.find_one({"email": email}):
         return {"success": False, "message": "Email already registered!"}
 
     # Store user (in a real app, hash the password before storing)
-    users[email] = {"username": username, "password": password}
+    hashed_password = generate_password_hash(password)
+    user_cl.insert_one({"username": username, "email": email, "password": hashed_password})
     return {"success": True, "message": "Registration successful!"}
 
 # Login
@@ -34,7 +38,8 @@ def handle_login(data):
     password = data.get("password")
     if not email or not password:
         return {"success": False, "message": "Email and password are required!"}
-    if email in users and users[email]["password"] == password:
+    user = user_cl.find_one({"email": email})
+    if user and check_password_hash(user["password"], password):
         return {"success": True, "message": "Login successful!"}
     else:
         return {"success": False, "message": "Invalid email or password."}
