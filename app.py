@@ -6,16 +6,14 @@ CORS(app)
 app.secret_key = 'your_secret_key'
 
 #sample data for now WILL BE REPLACED BY DB
-users = {
-    "test@example.com": "password123", 
-}
+users = { }
 
 #Register
 def handle_register(data):
     username = data.get("username")
     email = data.get("email")
     password = data.get("password")
-    confirm_password = data.get("confirm_password")
+    confirm_password = data.get("confirmPassword")
 
     if not username or not email or not password or not confirm_password:
         return {"success": False, "message": "All fields are required!"}
@@ -36,7 +34,7 @@ def handle_login(data):
     password = data.get("password")
     if not email or not password:
         return {"success": False, "message": "Email and password are required!"}
-    if email in users and users[email] == password:
+    if email in users and users[email]["password"] == password:
         return {"success": True, "message": "Login successful!"}
     else:
         return {"success": False, "message": "Invalid email or password."}

@@ -1,6 +1,5 @@
 import React from 'react';
 import "./forms.css";
-import { Input } from 'reactstrap';
 import { Login } from './api/Api';
 
 const LoginForm = () => {
@@ -12,8 +11,10 @@ const LoginForm = () => {
             email: form[0].value,
             password: form[1].value,
         };
+        console.log(data);
         Login(data);
     }
+
     return <div className="container">
         <h3>LOGIN</h3>
         <form className='form'>
