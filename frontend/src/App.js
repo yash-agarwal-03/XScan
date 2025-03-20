@@ -1,11 +1,10 @@
 import React from "react";
-import RegForm from "./regForm.jsx";
-import LoginForm from "./loginForm.jsx";
+import Form from "./form.jsx";
+
 function App() {
   return (
     <div className="App">
-      <RegForm/>
-      <LoginForm/>
+      <Form/>
     </div>
   );
 }

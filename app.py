@@ -12,7 +12,23 @@ users = {
 
 #Register
 def handle_register(data):
-    return {"message": "User registered successfully!"}
+    username = data.get("username")
+    email = data.get("email")
+    password = data.get("password")
+    confirm_password = data.get("confirm_password")
+
+    if not username or not email or not password or not confirm_password:
+        return {"success": False, "message": "All fields are required!"}
+
+    if password != confirm_password:
+        return {"success": False, "message": "Passwords do not match!"}
+
+    if email in users:
+        return {"success": False, "message": "Email already registered!"}
+
+    # Store user (in a real app, hash the password before storing)
+    users[email] = {"username": username, "password": password}
+    return {"success": True, "message": "Registration successful!"}
 
 # Login
 def handle_login(data):
