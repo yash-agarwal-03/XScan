@@ -41,13 +41,13 @@ def handle_login(data):
     else:
         return {"success": False, "message": "Invalid email or password."}
 
-@app.route('/login',method=['POST'])
+@app.route('/login',methods=['POST'])
 def login():
     data=request.get_json()
     response=handle_login(data)
     return jsonify(response)
 
-@app.route('/register',method=['POST'])
+@app.route('/register',methods=['POST'])
 def register():
     data=request.get_json()
     response=handle_register(data)

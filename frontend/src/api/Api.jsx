@@ -3,6 +3,7 @@ import axios from "axios";
 //post api
 const Login = async (data) => {
     try {
+        console.log("again")
         const response = await axios.post("/login", data);
         console.log(response.data);
     } catch (error) {
