@@ -1,6 +1,6 @@
 import React from "react";
 import "./forms.css";
-import { Register } from "./api/Api";
+import { Register } from "../../api/Api";
 const RegForm = () => {
     const handleSubmit = (event) => {
             console.log("register submit hit")
