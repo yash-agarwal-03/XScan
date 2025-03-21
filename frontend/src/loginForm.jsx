@@ -1,15 +1,15 @@
-import React from 'react';
+import React,{useState} from 'react';
 import "./forms.css";
 import { Login } from './api/Api';
 
 const LoginForm = () => {
-    const handleclick = (event) => {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const handleSubmit = (event) => {
         event.preventDefault();
-        console.log("hit")
-        const form = event.target.closest("form");  // Get form reference
         const data = {
-            email: form[0].value,
-            password: form[1].value,
+            email: email,
+            password: password,
         };
         console.log(data);
         Login(data);
@@ -17,10 +17,10 @@ const LoginForm = () => {
 
     return <div className="container">
         <h3>LOGIN</h3>
-        <form className='form'>
-            <input type="email" placeholder="Email ID"></input>
-            <input type="password" placeholder="Password"></input>
-            <button onClick={handleclick}>SUBMIT</button>
+        <form className='form' onSubmit={handleSubmit}>
+            <input type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
+            <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
+            <button type="submit">Login</button>
         </form>
     </div>
 
