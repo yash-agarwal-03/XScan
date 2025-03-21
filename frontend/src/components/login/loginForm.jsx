@@ -1,6 +1,6 @@
 import React,{useState} from 'react';
 import "./forms.css";
-import { Login } from './api/Api';
+import { Login } from '../../api/Api';
 
 const LoginForm = () => {
     const [email, setEmail] = useState("");

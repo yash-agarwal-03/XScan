@@ -1,8 +1,6 @@
 import React from "react";
-import Form from "./form.jsx";
+import Form from "./components/login/form.jsx";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import LoginForm from "./loginForm.jsx";
-import RegForm from "./regForm.jsx";
 function App() {
   return (
     <Router>
