@@ -23,5 +23,18 @@ def register():
     response=handle_register(data,user_cl)
     return jsonify(response)
 
+
+@app.route('/users',methods=['GET'])
+def users():
+    return render_template('index.html')
+
+# /users -> index.html (script)->fetchUsers()-> api/users -> sends the data back as json to Javascript
+@app.route('/api/users',methods=['GET'])
+def getusers():
+    users=user_cl.find()
+    userlist=[{"id":id+1,"username":user["username"],"email":user["email"]} for id,user in enumerate(users)]
+    return jsonify(userlist)
+
+
 if __name__ == '__main__':
     app.run(debug=True)

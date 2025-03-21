@@ -1,10 +1,8 @@
+from flask import jsonify, render_template
 from werkzeug.security import generate_password_hash, check_password_hash
 
 #Register
 def handle_register(data, user_cl):
-
-
-
     username = data.get("username")
     email = data.get("email")
     password = data.get("password")
@@ -22,6 +20,7 @@ def handle_register(data, user_cl):
     # Store user (in a real app, hash the password before storing)
     hashed_password = generate_password_hash(password)
     user_cl.insert_one({"username": username, "email": email, "password": hashed_password})
+    # showtable(user_cl)
     return {"success": True, "message": "Registration successful!"}
 
 
@@ -37,9 +36,16 @@ def handle_login(data, user_cl):
     else:
         return {"success": False, "message": "Invalid email or password."}
 
-# register - > handle_register() -> showtable() 
+# register - > handle_register() ->
 # 
 # showtable()-> jinja tempplating -> show users registerd 
-# 
-# 
-# 
+
+def showtable(user_cl):
+    users = user_cl.find()
+    user_list = []
+    count=0
+    for user in users:
+        count=count+1
+        user_list.append({"id":count , "username": user["username"], "email": user["email"]})
+    user_list=jsonify(user_list)
+    return render_template('index.html', users=user_list)

@@ -3,23 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Registered Users</title>
+    <script>
+        
+        async function fetchUsers() {
+            const response= await fetch('http://localhost:5000/api/users'); //send request to app.py 
+            const users= await response.json();//return render_template gives the response 
+
+            let table=document.getElementById('usertable');
+            table.innerHTML='';
+
+            users.forEach(user=>{
+                let tablerow=`
+                    <tr>
+                        <td>${user.email}</td>
+                        <td>${user.username}</td>
+                        <td>${user.password}</td>
+                    </tr>
+                `;
+                table.innerHTML+=tablerow;//add rows to the table
+            })
+        }
+        
+        fetchUsers();
+        setInterval(fetchUsers, 3000);//every 10secs, refresh the table
+    </script>
 </head>
 <body>
-    <table>
-        <tr>
+    <table border="1" style="width: 50%; text-align: center;">
+        <thead>
             <th>Username</th>
             <th>Email</th>
             <th>Password</th>
-        </tr>
+        </thead>
+        <tbody id = "usertable">
 
-            {% for user in users %}
-                <tr>
-                    <td>{{ user.username }}</td>
-                    <td>{{ user.email }}</td>
-                    <td>{{ user.password }}</td>
-                </tr>
-            {% endfor %}
+        </tbody>
             
     </table>
 </body>
