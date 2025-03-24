@@ -25,12 +25,14 @@ const UploadModal = ({ isOpen, toggle }) => {
     };
 
     return (
-        <div style={{borderRadius:"2rem"}}>
+        <div>
             <Modal
-                className="modal-dialog modal-dialog-centered"
+                className="modal-dialog modal-dialog-centered modal"
                 style={{ maxWidth: "800px", minHeight: "400px" }}
+                centered
                 isOpen={isOpen}
-                toggle={toggle}>
+                toggle={toggle}
+            >
                 <ModalHeader toggle={toggle}>Upload Image</ModalHeader>
                 <ModalBody>
                     <div
