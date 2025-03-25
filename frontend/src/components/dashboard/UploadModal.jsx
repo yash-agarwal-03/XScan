@@ -38,7 +38,8 @@ const UploadModal = ({ isOpen, toggle }) => {
                     <div
                         {...getRootProps()}
                         style={{
-                            border: "2px dashed #000",
+                            borderRadius: "1rem",
+                            border: "2px dashed #3C3D37",
                             padding: "20px",
                             textAlign: "center",
                             cursor: "pointer",

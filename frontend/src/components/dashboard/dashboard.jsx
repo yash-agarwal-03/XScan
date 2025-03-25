@@ -1,11 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "reactstrap";
 import UploadModal from "./UploadModal";
+import ReportCard from "./reportCard";
+import Navbar from "./navbar";
 
 const Dashboard = () => {
     const [modalOpen, setModalOpen] = useState(false);
+    const navigate = useNavigate();
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        const storedUser = localStorage.getItem("user");
+        if (!storedUser) {
+            navigate("/"); // Redirect if not logged in
+        } else {
+            setUser(JSON.parse(storedUser));
+        }
+    }, [navigate]);
     return (
         <div>
+            {/* NAVBAR */}
+            <Navbar />
+            <h1>Welcome, {user?.name}</h1>
             <div className="mt-5 text-center upload-section" style={{ height: "15rem", width: "96.5vw", borderRadius: "2rem" }}>
                 <div className="d-flex justify-content-between align-items-center" style={{ width: "85vw" }}>
                     <button className="upload-btn" size="lg" onClick={() => setModalOpen(true)}>Upload X-Ray</button>
@@ -13,6 +30,8 @@ const Dashboard = () => {
                 </div>
                 <UploadModal isOpen={modalOpen} toggle={() => setModalOpen(!modalOpen)} />
             </div>
+            {/* REPORT CARD Mapping Loop */}
+            <ReportCard/>
         </div>
     );
 }

@@ -1,11 +1,13 @@
 import React,{useState} from 'react';
+import { useNavigate } from "react-router-dom";
 import "./forms.css";
 import { Login } from '../../api/Api';
 
 const LoginForm = () => {
+    const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const handleSubmit = (event) => {
+    const handleSubmit = async(event) => {
         event.preventDefault();
 
 
@@ -14,7 +16,14 @@ const LoginForm = () => {
             password: password,
         };
         console.log(data);
-        Login(data);
+        const response = await Login(data);
+        console.log(response);
+        if (response.success) {
+            localStorage.setItem("user", JSON.stringify(response.user)); // Store user info
+            navigate("/dashboard");
+        } else {
+            alert(response.message); // Show error message
+        }
     }
 
     return <div className="container">
