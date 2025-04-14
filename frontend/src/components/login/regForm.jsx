@@ -16,7 +16,7 @@ const RegForm = () => {
             Register(data);
     };
     return (
-        <div className="container">
+        <div className="formcontainer">
             <h3>REGISTER</h3>
             <form className="form">
                 <input type="text" placeholder="Username"></input>
