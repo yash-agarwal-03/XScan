@@ -53,5 +53,12 @@ def getImage():
     data= request.get_json()
     response=handleGetImage(data,image_cl)
     return response
+
+@app.route('/api/getImageList',methods=['GET'])
+def getImageList():
+    user_id=session["user"]["email"]
+    response=handleGetImageList(image_cl,user_id)
+    return jsonify(response)
+
 if __name__ == '__main__':
     app.run(debug=True)

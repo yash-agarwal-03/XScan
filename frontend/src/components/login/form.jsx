@@ -18,13 +18,3 @@ const Form = () => {
   );
 };
 export default Form;
-/*
-outline?: boolean;
-  active?: boolean;
-  block?: boolean;
-  color?: string;
-  tag?: React.ElementType;
-  innerRef?: React.Ref<HTMLButtonElement>;
-  size?: string;
-  cssModule?: CSSModule;
-  close?: boolean; */
