@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request, session
 from flask_cors import CORS
-
+import traceback
 from pymongo import MongoClient
 from controllers import *
 
@@ -41,11 +41,26 @@ def getusers():
 
 @app.route('/api/setImage',methods=['POST'])
 def setImage():
-    data=request.get_json()
-    user_id=session["user"]["email"]
-    response=handleSetImage(data,image_cl,user_id)
+    try:
+        print("thisis debug",request.files)
+        print("thisis debug",request.form)
+        if "image" not in request.files:
+            return jsonify({"success":False,"message":"No image provided"}),400
 
-    return response
+        image=request.files["image"]
+        filename=request.form.get("filename")
+        content_type=request.form.get("content_type")
+        if "user" not in session:
+            return jsonify({"success": False, "message": "User not authenticated"}), 401
+        user_id=session["user"]["email"]
+        response=handleSetImage(image,filename,content_type,image_cl,user_id)
+        
+        return response
+    except Exception as e:
+        print("Error:", e)
+        traceback.print_exc()  # Print stack trace to the console for debugging
+        return jsonify({"success": False, "message": "Server Error"}), 500
+
 
 
 @app.route('/api/getImage',methods=['GET'])

@@ -5,6 +5,7 @@ from dbSchema.ImageSchema import Image
 import base64
 from base64 import b64decode
 from datetime import datetime
+import traceback
 #Register
 def handle_register(data, user_cl):
     username = data.get("username")
@@ -67,24 +68,37 @@ def showtable(user_cl):
     return render_template('index.html', users=user_list)
 
 
-def handleSetImage(data,image_cl,user_id):
-    filename=data["filename"]
-    content_type=data["content_type"]
-    image=data["image"]
-    binary=image.read()
-    encodedImage=base64.b64encode(binary).decode('utf-8')
-    id=datetime.now()
-    print(id)
-    newImage=Image(
-        _id=str(id),
-        filename=filename,
-        content_type=content_type,
-        imageFile=encodedImage,
-        user_id=user_id
-    )
+def handleSetImage(image,filename,content_type,image_cl,user_id):
+    # filename=data["filename"]
+    # content_type=data["content_type"]
+    try:
+        print("Handling Image...")
+        print(f"Filename: {filename}")
+        print(f"Content Type: {content_type}")
 
-    image_cl.insert_one(newImage)
-    return jsonify({"success":True,"message":"Image uploaded successfully","imageID":str(id)})
+        # Read the image data
+        binary = image.read()
+        print(f"Binary data length: {len(binary)}")
+
+        encodedImage = base64.b64encode(binary).decode('utf-8')
+        print(f"Encoded image (base64): {encodedImage[:50]}...")  # Print only the start to avoid massive output
+
+        id = str(datetime.now())
+        print(f"Image ID: {id}")
+        
+        # Simulating storing image (in real case, store it in DB or file system)
+        image_cl.insert_one(encodedImage)
+
+        return jsonify({
+            "success": True,
+            "message": "Image uploaded successfully",
+            "imageID": id
+        })
+
+    except Exception as e:
+        print("Error in handleSetImage:", e)
+        traceback.print_exc()  # This will give us more detailed logs
+        return jsonify({"success": False, "message": "Error handling image"}), 500
 
 def handleGetImage(data,image_cl):
     image=image_cl.find({"_id":data._id})
