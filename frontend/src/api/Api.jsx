@@ -14,7 +14,8 @@ const Login = async (data) => {
 const Register = async (data) => {
     try {
         const response = await axios.post("/register", data);
-        console.log(response.data);
+        console.log(response);
+        return response.data;
     } catch (error) {
         console.error("Error:", error);
     }

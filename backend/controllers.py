@@ -1,6 +1,10 @@
 from flask import jsonify, render_template
 from werkzeug.security import generate_password_hash, check_password_hash
-
+from dbSchema.userSchema import User
+from dbSchema.ImageSchema import Image
+import base64
+from base64 import b64decode
+from datetime import datetime
 #Register
 def handle_register(data, user_cl):
     username = data.get("username")
@@ -17,10 +21,14 @@ def handle_register(data, user_cl):
     if user_cl.find_one({"email": email}):
         return {"success": False, "message": "Email already registered!"}
 
-    # Store user (in a real app, hash the password before storing)
     hashed_password = generate_password_hash(password)
-    user_cl.insert_one({"username": username, "email": email, "password": hashed_password})
-    # showtable(user_cl)
+    newuser=User(
+        username= username,
+        email= email,
+        password= hashed_password
+    )
+    user_cl.insert_one(newuser.to_mongo().to_dict())  
+
     return {"success": True, "message": "Registration successful!"}
 
 
@@ -48,10 +56,6 @@ def handle_login(data, user_cl):
     
     return {"success": False, "message": "Invalid email or password."}
 
-# register - > handle_register() ->
-# 
-# showtable()-> jinja tempplating -> show users registerd 
-
 def showtable(user_cl):
     users = user_cl.find()
     user_list = []
@@ -61,3 +65,32 @@ def showtable(user_cl):
         user_list.append({"id":count , "username": user["username"], "email": user["email"]})
     user_list=jsonify(user_list)
     return render_template('index.html', users=user_list)
+
+
+def handleSetImage(data,image_cl,user_id):
+    filename=data["filename"]
+    content_type=data["content_type"]
+    image=data["image"]
+    binary=image.read()
+    encodedImage=base64.b64encode(binary).decode('utf-8')
+    id=datetime.now()
+    print(id)
+    newImage=Image(
+        _id=str(id),
+        filename=filename,
+        content_type=content_type,
+        imageFile=encodedImage,
+        user_id=user_id
+    )
+
+    image_cl.insert_one(newImage)
+    return jsonify({"success":True,"message":"Image uploaded successfully","imageID":str(id)})
+
+def handleGetImage(data,image_cl):
+    
+    image=image_cl.find({"_id":data._id})
+    image=b64decode(image["imageFile"])
+    if image:
+        return jsonify({"success":True,"imageID":image._id,"image":image["imageFile"]})
+    else:
+        return jsonify({"success":False,"message":"Image not found"})
