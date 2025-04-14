@@ -54,7 +54,7 @@ def getImage():
     response=handleGetImage(data,image_cl)
     return response
 
-@app.route('/api/getImageList',methods=['GET'])
+@app.route('/api/getUserImageList',methods=['GET'])
 def getImageList():
     user_id=session["user"]["email"]
     response=handleGetImageList(image_cl,user_id)

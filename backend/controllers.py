@@ -87,10 +87,19 @@ def handleSetImage(data,image_cl,user_id):
     return jsonify({"success":True,"message":"Image uploaded successfully","imageID":str(id)})
 
 def handleGetImage(data,image_cl):
-    
     image=image_cl.find({"_id":data._id})
     image=b64decode(image["imageFile"])
     if image:
         return jsonify({"success":True,"imageID":image._id,"image":image["imageFile"]})
     else:
         return jsonify({"success":False,"message":"Image not found"})
+    
+def handleGetImageList(image_cl,user_id):
+    images=image_cl.find({"user_id":user_id})
+    imageList=[]
+    for image in images:
+        imageList.append({
+            "imageID":image["_id"],
+            "imageFile":image["imageFile"]
+        })
+    return imageList
