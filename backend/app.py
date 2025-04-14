@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request, session
 from flask_cors import CORS
+
 from pymongo import MongoClient
 from controllers import *
 
@@ -10,6 +11,7 @@ app.secret_key = 'your_secret_key'
 client = MongoClient("mongodb://localhost:27017/")
 db = client["user_database"]
 user_cl = db["users"]
+image_cl=db["images"]
 
 @app.route('/login',methods=['POST'])
 def login():
@@ -37,6 +39,19 @@ def getusers():
     userlist=[{"id":id+1,"username":user["username"],"email":user["email"]} for id,user in enumerate(users)]
     return jsonify(userlist)
 
+@app.route('/api/setImage',methods=['POST'])
+def setImage():
+    data=request.get_json()
+    user_id=session["user"]["email"]
+    response=handleSetImage(data,image_cl,user_id)
 
+    return response
+
+
+@app.route('/api/getImage',methods=['GET'])
+def getImage():
+    data= request.get_json()
+    response=handleGetImage(data,image_cl)
+    return response
 if __name__ == '__main__':
     app.run(debug=True)

@@ -2,7 +2,7 @@ import React from "react";
 import "./forms.css";
 import { Register } from "../../api/Api";
 const RegForm = () => {
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
             console.log("register submit hit")
             event.preventDefault();
             
@@ -13,7 +13,8 @@ const RegForm = () => {
                 password:form[2].value,
                 confirmPassword:form[3].value
             }
-            Register(data);
+            const response= await Register(data);
+            alert(response.message);
     };
     return (
         <div className="formcontainer">

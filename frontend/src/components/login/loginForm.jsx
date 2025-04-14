@@ -25,7 +25,7 @@ const LoginForm = () => {
     }
   };
 
-    return (<div className="formcontainer">
+    return <div className="formcontainer">
         <h3>LOGIN</h3>
         <form className='form' onSubmit={handleSubmit}>
             <input type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
@@ -33,6 +33,5 @@ const LoginForm = () => {
             <button type="submit">Login</button>
         </form>
     </div>
-  );
 };
 export default LoginForm;
