@@ -4,8 +4,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Dashboard from "./components/dashboard/dashboard.jsx";
 function App() {
   return (
-    <>
-    
     <Router>
       <Routes>
         <Route path="/" element={<Form />} />
@@ -15,7 +13,6 @@ function App() {
         {/* <Route path="/register" element={<RegForm/>} /> */}
       </Routes>
     </Router>
-    </>
   );
 }
 export default App;

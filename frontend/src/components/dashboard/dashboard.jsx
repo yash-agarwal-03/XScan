@@ -22,7 +22,7 @@ const Dashboard = () => {
         <div>
             {/* NAVBAR */}
             <Navbar />
-            <h1>Welcome, {user?.name}</h1>
+            <h1 className="ms-4">Welcome, {user?.name}</h1>
             <div className="mt-5 text-center upload-section" style={{ height: "15rem", width: "96.5vw", borderRadius: "2rem" }}>
                 <div className="d-flex justify-content-between align-items-center" style={{ width: "85vw" }}>
                     <button className="upload-btn" size="lg" onClick={() => setModalOpen(true)}>Upload X-Ray</button>
@@ -31,6 +31,7 @@ const Dashboard = () => {
                 <UploadModal isOpen={modalOpen} toggle={() => setModalOpen(!modalOpen)} />
             </div>
             {/* REPORT CARD Mapping Loop */}
+            <h1 className="ms-4 mb-5">Reports</h1>
             <ReportCard/>
         </div>
     );
