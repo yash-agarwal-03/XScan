@@ -23,7 +23,7 @@ const Register = async (data) => {
 
 function SendImage(data) {
     try {
-        const response = axios.post("/api/sendimage", data);
+        const response = axios.post("/imageApi/sendimage", data);
         console.log(response.data);
     } catch (error) {
         console.error("Error:", error);
@@ -32,7 +32,15 @@ function SendImage(data) {
 
 const GetImage = async (data) => {
     try {
-        const response = await axios.post("/api/getimage", data);
+        const response = await axios.post("/imageApi/getimage", data);
+        console.log(response.data);
+    } catch (error) {
+        console.error("Error:", error);
+    }
+}
+const GetImageList = async (data) => {
+    try {
+        const response = await axios.post("/imageApi/getimagelist", data);
         console.log(response.data);
     } catch (error) {
         console.error("Error:", error);
@@ -42,5 +50,6 @@ export {
     Login,
     SendImage,
     Register,
-    GetImage
+    GetImage,
+    GetImageList
 };
