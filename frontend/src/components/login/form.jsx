@@ -10,7 +10,7 @@ const Form = () => {
         <div className="form">
             <Button onClick={() => setState("login")}>Login</Button>
             <Button onClick={() => setState("register")}>Register</Button>
-            {state == "login" ?
+            {state === "login" ?
                 (<LoginForm />) :
                 (<RegForm />)
             }
