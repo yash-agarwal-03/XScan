@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./forms.css";
 import { Login } from "../../api/Api";
+import showToast from "../common/Toaster";
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -18,10 +19,11 @@ const LoginForm = () => {
     const response = await Login(data);
     console.log(response);
     if (response.success) {
-      localStorage.setItem("user", JSON.stringify(response.user)); // Store user info
+      localStorage.setItem("user", JSON.stringify(response.user));
+      showToast(response.success?("Success"):("Error"),response.success?("Success"):("Error"),response.message);
       navigate("/dashboard");
     } else {
-      alert(response.message); // Show error message
+      showToast(response.success?("Success"):("Error"),response.success?("Success"):("Error"),response.message);
     }
   };
 
