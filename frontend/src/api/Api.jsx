@@ -6,6 +6,7 @@ const Login = async (data) => {
         console.log("again")
         const response = await axios.post("/login", data);
         console.log(response.data);
+        return response.data;
     } catch (error) {
         console.error("Error:", error);
     }
