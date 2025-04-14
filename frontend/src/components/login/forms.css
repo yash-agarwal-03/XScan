@@ -1,12 +1,45 @@
+body{
+    background-image: url('./loginbg.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
 .container{
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: fit-content;
+}
+.container h1{
+    margin: 0;
+}
+.buttonbar{
+    width: 100%;
+    display: flex;
+}
+.buttonbar button{
+    width: 50%;
+    height: 2rem;
+    font-size: 1rem;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 2%;
+    
+}
+.formcontainer{
+    font-size: 1.5rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     width: fit-content;
-    margin-top: 10%;
-    margin-bottom: 10%;
     padding: 20px;
+    margin: 2%;
     border: 1px solid #ccc;
     border-radius: 10px;
     background-color: #f9f9f9;
@@ -19,7 +52,12 @@
     justify-content: center;
     width: 100%;
 }
+.form input{
+    height:1.5rem;
+    margin: 2%;
+}
 .form button{
-    height: 1.5rem;
+    margin-top: 2%;
+    height: 2rem;
     width: 100%;
 }
