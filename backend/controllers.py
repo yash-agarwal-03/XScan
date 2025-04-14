@@ -28,13 +28,25 @@ def handle_register(data, user_cl):
 def handle_login(data, user_cl):
     email = data.get("email")
     password = data.get("password")
+
     if not email or not password:
         return {"success": False, "message": "Email and password are required!"}
+
     user = user_cl.find_one({"email": email})
-    if user and check_password_hash(user["password"], password):
-        return {"success": True, "message": "Login successful!"}
-    else:
-        return {"success": False, "message": "Invalid email or password."}
+    
+    if user:
+        print("User found in DB:", user)  # Debugging print
+        if "password" in user and check_password_hash(user["password"], password):
+            return {
+                "success": True,
+                "message": "Login successful!",
+                "user": {
+                    "email": user["email"],
+                    "name": user.get("username", "User")  # Avoid KeyError
+                }
+            }
+    
+    return {"success": False, "message": "Invalid email or password."}
 
 # register - > handle_register() ->
 # 

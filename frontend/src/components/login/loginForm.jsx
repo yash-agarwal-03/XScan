@@ -1,21 +1,29 @@
-import React,{useState} from 'react';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./forms.css";
-import { Login } from '../../api/Api';
+import { Login } from "../../api/Api";
 
 const LoginForm = () => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const handleSubmit = (event) => {
-        event.preventDefault();
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
-
-        const data = {
-            email: email,
-            password: password,
-        };
-        console.log(data);
-        Login(data);
+    const data = {
+      email: email,
+      password: password,
+    };
+    console.log(data);
+    const response = await Login(data);
+    console.log(response);
+    if (response.success) {
+      localStorage.setItem("user", JSON.stringify(response.user)); // Store user info
+      navigate("/dashboard");
+    } else {
+      alert(response.message); // Show error message
     }
+  };
 
     return <div className="formcontainer">
         <h3>LOGIN</h3>
@@ -25,5 +33,6 @@ const LoginForm = () => {
             <button type="submit">Login</button>
         </form>
     </div>
-}
+  );
+};
 export default LoginForm;

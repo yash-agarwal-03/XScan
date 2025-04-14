@@ -4,13 +4,17 @@ import LoginForm from "./loginForm";
 import RegForm from "./regForm";
 import { Button } from "reactstrap";
 const Form = () => {
-  const [state, setState] = useState("login");
-  return (
-    <div className="body">
-      <div className="container">
-        <div className="buttonbar">
-          <Button onClick={() => setState("login")}>Login</Button>
-          <Button onClick={() => setState("register")}>Register</Button>
+
+    const [state, setState] = useState("login");
+    return (
+        <div className="form">
+            <Button onClick={() => setState("login")}>Login</Button>
+            <Button onClick={() => setState("register")}>Register</Button>
+            {state === "login" ?
+                (<LoginForm />) :
+                (<RegForm />)
+            }
+
         </div>
         {state == "login" ? <LoginForm /> : <RegForm />}
       </div>

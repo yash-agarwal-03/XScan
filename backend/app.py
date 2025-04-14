@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, session
 from flask_cors import CORS
 from pymongo import MongoClient
 from controllers import *
@@ -15,6 +15,8 @@ user_cl = db["users"]
 def login():
     data=request.get_json()
     response=handle_login(data,user_cl)
+    if response["success"]:
+        session["user"] = response["user"]
     return jsonify(response)
 
 @app.route('/register',methods=['POST'])
