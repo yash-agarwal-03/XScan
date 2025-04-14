@@ -14,8 +14,6 @@ const Form = () => {
                 (<LoginForm />) :
                 (<RegForm />)
             }
-
-        {state == "login" ? <LoginForm /> : <RegForm />}
       </div>
   );
 };
