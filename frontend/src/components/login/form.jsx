@@ -15,10 +15,8 @@ const Form = () => {
                 (<RegForm />)
             }
 
-        </div>
         {state == "login" ? <LoginForm /> : <RegForm />}
       </div>
-    </div>
   );
 };
 export default Form;
