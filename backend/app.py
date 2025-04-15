@@ -42,30 +42,29 @@ def getusers():
 @app.route('/api/setImage',methods=['POST'])
 def setImage():
     try:
-        print("thisis debug",request.files)
-        print("thisis debug",request.form)
+        # print("thisis debug",request.files)
+        # print("thisis debug",request.form)
         if "image" not in request.files:
             return jsonify({"success":False,"message":"No image provided"}),400
 
         image=request.files["image"]
         filename=request.form.get("filename")
         content_type=request.form.get("content_type")
-        if "user" not in session:
-            return jsonify({"success": False, "message": "User not authenticated"}), 401
-        user_id=session["user"]["email"]
-        response=handleSetImage(image,filename,content_type,image_cl,user_id)
+        userid=request.form.get("userId")
+        response=handleSetImage(image,filename,content_type,image_cl,userid)
         
         return response
     except Exception as e:
         print("Error:", e)
         traceback.print_exc()  # Print stack trace to the console for debugging
-        return jsonify({"success": False, "message": "Server Error"}), 500
+        return jsonify({"success": False, "message": f"Server Error : {e}"}), 500
 
 
 
 @app.route('/api/getImage',methods=['GET'])
 def getImage():
     data= request.get_json()
+    
     response=handleGetImage(data,image_cl)
     return response
 

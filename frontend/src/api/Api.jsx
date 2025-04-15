@@ -24,9 +24,11 @@ const Register = async (data) => {
 const SetImage = async (image) => {
   try {
     const formData = new FormData();
+    const user = JSON.parse(localStorage.getItem("user"));
     formData.append("image", image);
     formData.append("filename", image.name);
     formData.append("content_type", image.type);
+    formData.append("userId", user.email);
     const response = await axios.post("http://localhost:5000/api/setImage", formData, {
         headers: {
           "Content-Type": "multipart/form-data"

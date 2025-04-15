@@ -68,7 +68,7 @@ def showtable(user_cl):
     return render_template('index.html', users=user_list)
 
 
-def handleSetImage(image,filename,content_type,image_cl,user_id):
+def handleSetImage(image,filename,content_type,image_cl,userid):
     # filename=data["filename"]
     # content_type=data["content_type"]
     try:
@@ -85,9 +85,15 @@ def handleSetImage(image,filename,content_type,image_cl,user_id):
 
         id = str(datetime.now())
         print(f"Image ID: {id}")
-        
+        newImage=Image(
+            _id=id,
+            filename=filename,
+            content_type=content_type,
+            imageFile=encodedImage,
+            user_id=userid
+        )
         # Simulating storing image (in real case, store it in DB or file system)
-        image_cl.insert_one(encodedImage)
+        image_cl.insert_one(newImage.to_mongo().to_dict())
 
         return jsonify({
             "success": True,
@@ -98,7 +104,7 @@ def handleSetImage(image,filename,content_type,image_cl,user_id):
     except Exception as e:
         print("Error in handleSetImage:", e)
         traceback.print_exc()  # This will give us more detailed logs
-        return jsonify({"success": False, "message": "Error handling image"}), 500
+        return jsonify({"success": False, "message": f"Error handling image : {e}"}), 500
 
 def handleGetImage(data,image_cl):
     image=image_cl.find({"_id":data._id})
