@@ -23,6 +23,7 @@ const ImageList = () => {
       <table className="table table-bordered table-striped">
         <thead>
           <tr>
+            <th>Image ID</th>
             <th>Image Name</th>
             <th>Image File</th>
           </tr>
@@ -30,6 +31,7 @@ const ImageList = () => {
         <tbody>
           {images.map((img, idx) => (
             <tr key={idx}>
+              <td>{img._id}</td>
               <td>{img.filename}</td>
               <td>
                 <img

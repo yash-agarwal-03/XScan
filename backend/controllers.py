@@ -3,7 +3,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from dbSchema.userSchema import User
 from dbSchema.ImageSchema import Image
 import base64
-from datetime import datetime
+import time
 import traceback
 #Register
 def handle_register(data, user_cl):
@@ -11,7 +11,7 @@ def handle_register(data, user_cl):
     email = data.get("email")
     password = data.get("password")
     confirm_password = data.get("confirmPassword")
-
+    id=str(int(time.time() * 1000))
     if not username or not email or not password or not confirm_password:
         return {"success": False, "message": "All fields are required!"}
 
@@ -23,6 +23,7 @@ def handle_register(data, user_cl):
 
     hashed_password = generate_password_hash(password)
     newuser=User(
+        _id=id,
         username= username,
         email= email,
         password= hashed_password
@@ -82,7 +83,7 @@ def handleSetImage(image,filename,content_type,image_cl,userid):
         encodedImage = base64.b64encode(binary).decode('utf-8')
         print(f"Encoded image (base64): {encodedImage[:50]}...")  # Print only the start to avoid massive output
 
-        id = str(datetime.now())
+        id = str(int(time.time() * 1000))
         print(f"Image ID: {id}")
         newImage=Image(
             _id=id,
@@ -119,9 +120,8 @@ def handleGetImageList(image_cl,user_id):
     try:
 
         for image in images:
-            file=image["_id"]
             imageList.append({
-                "imageID": file,
+                "_id": image["_id"],
                 "filename":image["filename"],
                 "imageFile":image["imageFile"]
             })
