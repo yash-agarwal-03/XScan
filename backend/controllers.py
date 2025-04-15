@@ -3,7 +3,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from dbSchema.userSchema import User
 from dbSchema.ImageSchema import Image
 import base64
-from base64 import b64decode
 from datetime import datetime
 import traceback
 #Register
@@ -108,7 +107,7 @@ def handleSetImage(image,filename,content_type,image_cl,userid):
 
 def handleGetImage(data,image_cl):
     image=image_cl.find({"_id":data._id})
-    image=b64decode(image["imageFile"])
+    image=base64.b64decode(image["imageFile"])
     if image:
         return jsonify({"success":True,"imageID":image._id,"image":image["imageFile"]})
     else:
@@ -117,9 +116,17 @@ def handleGetImage(data,image_cl):
 def handleGetImageList(image_cl,user_id):
     images=image_cl.find({"user_id":user_id})
     imageList=[]
-    for image in images:
-        imageList.append({
-            "imageID":image["_id"],
-            "imageFile":image["imageFile"]
-        })
-    return imageList
+    try:
+
+        for image in images:
+            file=image["_id"]
+            imageList.append({
+                "imageID": file,
+                "filename":image["filename"],
+                "imageFile":image["imageFile"]
+            })
+        return imageList
+    
+    
+    except Exception as e:
+        return jsonify({"Success":"false","message":f"Error in getting image list: {e}"}),500

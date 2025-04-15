@@ -70,9 +70,11 @@ def getImage():
 
 @app.route('/api/getUserImageList',methods=['GET'])
 def getImageList():
-    user_id=session["user"]["email"]
+    user_id=request.headers.get("userid")
+    if not user_id:
+        return jsonify({"success": False, "message": "User ID not provided"}), 400
     response=handleGetImageList(image_cl,user_id)
-    return jsonify(response)
+    return (response)
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -49,10 +49,18 @@ const GetImage = async (data) => {
     console.error("Error:", error);
   }
 };
-const GetImageList = async (data) => {
+//here data was being passed as a parameter to the function, and in the request too. That needed to be removed
+const GetImageList = async () => {
   try {
-    const response = await axios.post("/api/getUserImageList", data);
-    console.log(response.data);
+    const user= JSON.parse(localStorage.getItem("user"));
+    console.log("Inside getList\nUser: ",user);
+    const response = await axios.get("/api/getUserImageList",{
+      headers:{
+        "userid": user.email,
+      },
+    });
+    console.log("Inside api :",response);
+    return response.data;
   } catch (error) {
     console.error("Error:", error);
   }

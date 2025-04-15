@@ -1,6 +1,5 @@
 import React,{ useState} from "react";
 import ReportModal from "./reportModal";
-
 const ReportCard = (image,id) => {
     const [modalOpen, setModalOpen] = useState(false);
     return (
@@ -9,4 +8,5 @@ const ReportCard = (image,id) => {
         </div>
     )
 }
+
 export default ReportCard;
