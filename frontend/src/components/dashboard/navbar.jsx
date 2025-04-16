@@ -1,18 +1,28 @@
-import React from "react";
-// import 'navbar.css' from "";
-const Navbar = (username) => {
-    console.log(username["name"]);
+import React, { useState } from "react";
+
+const Navbar = ({ username, onLogout }) => {
   return (
     <div className="nav-container">
-      <span>
-        <img src="./images/logo.png" alt="logo"></img>
-        <p>X-SCAN</p>
-      </span>
-      <span>
-        <img src="./images/profile.png" alt="profile"></img>
-        <p>yash</p>
-      </span>
-    </div>
+      <div className="nav-box">
+        <img src="./images/logo.png" alt="logo" />
+        <h1>X-SCAN</h1>
+      </div>
+
+      <div className="profile-container">
+        <div className="nav-box">
+          <h2>{username?.name || "Guest"}</h2>
+          <img
+            src="./images/profile.png"
+            alt="profile"
+            className="profile-icon"
+          />
+        </div>
+          <button className="logout-btn" onClick={onLogout}>
+            Logout
+          </button>
+        </div>
+      </div>
   );
 };
+
 export default Navbar;

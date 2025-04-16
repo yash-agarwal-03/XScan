@@ -40,11 +40,42 @@
 .modal .modal-content{
     border-radius: 1rem !important;
 }
-.nav-container{
+.nav-container {
     width: 100%;
     background-color: rgb(44, 236, 169);
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 1rem 2rem 0rem 2rem;
+    position: relative;
+    /* max-height: 4rem; */
+  }
+  .nav-box{
+    position: relative;
+  }
+.nav-box img{
+    width:2rem;
 }
+  .nav-box {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    position: relative;
+    color: white;
+  }
+  
+  .logout-btn {
+    background-color: #ffffffa1;
+    padding: 0.2rem 1rem;
+    margin-bottom: 1rem;
+    border: none;
+    color: black;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 2.5rem;
+  }
+  
+  .logout-btn:hover {
+    color: red;
+  }
+  

@@ -9,7 +9,10 @@ const Dashboard = () => {
     const [modalOpen, setModalOpen] = useState(false);
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
-
+    const handleLogout=()=>{
+        localStorage.removeItem("user");
+        navigate("/"); // Redirect to login page
+    }
     useEffect(() => {
         const storedUser = localStorage.getItem("user");
         if (!storedUser) {
@@ -21,8 +24,7 @@ const Dashboard = () => {
     return (
         <div>
             {/* NAVBAR */}
-            <Navbar username={user}/>
-            <h1 className="ms-4">Welcome, {user?.name}</h1>
+            <Navbar user={user} onLogout={handleLogout}/>
             <div className="mt-5 text-center upload-section" style={{ height: "15rem", width: "96.5vw", borderRadius: "2rem" }}>
                 <div className="d-flex justify-content-between align-items-center" style={{ width: "85vw" }}>
                     <button className="upload-btn" size="lg" onClick={() => setModalOpen(true)}>Upload X-Ray</button>
