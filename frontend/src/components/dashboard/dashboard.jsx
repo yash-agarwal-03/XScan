@@ -21,7 +21,7 @@ const Dashboard = () => {
     return (
         <div>
             {/* NAVBAR */}
-            <Navbar />
+            <Navbar username={user}/>
             <h1 className="ms-4">Welcome, {user?.name}</h1>
             <div className="mt-5 text-center upload-section" style={{ height: "15rem", width: "96.5vw", borderRadius: "2rem" }}>
                 <div className="d-flex justify-content-between align-items-center" style={{ width: "85vw" }}>
