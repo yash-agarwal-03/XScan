@@ -9,10 +9,11 @@ const Dashboard = () => {
     const [modalOpen, setModalOpen] = useState(false);
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
-    const handleLogout=()=>{
+    const handleLogout = () => {
         localStorage.removeItem("user");
         navigate("/"); // Redirect to login page
     }
+
     useEffect(() => {
         const storedUser = localStorage.getItem("user");
         if (!storedUser) {
@@ -20,11 +21,16 @@ const Dashboard = () => {
         } else {
             setUser(JSON.parse(storedUser));
         }
-    }, [navigate]);
+    }, []);
+
     return (
         <div>
             {/* NAVBAR */}
-            <Navbar user={user} onLogout={handleLogout}/>
+            {user ? (
+                <Navbar user={user} onLogout={handleLogout} />) :
+                (
+                <Navbar user={null} onLogout={handleLogout} />) }
+
             <div className="mt-5 text-center upload-section" style={{ height: "15rem", width: "96.5vw", borderRadius: "2rem" }}>
                 <div className="d-flex justify-content-between align-items-center" style={{ width: "85vw" }}>
                     <button className="upload-btn" size="lg" onClick={() => setModalOpen(true)}>Upload X-Ray</button>
@@ -34,7 +40,7 @@ const Dashboard = () => {
             </div>
             {/* REPORT CARD Mapping Loop */}
             <h1 className="ms-4 mb-5">Reports</h1>
-            <ReportCard/>
+            <ReportCard />
         </div>
     );
 }

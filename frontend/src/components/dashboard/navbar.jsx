@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const Navbar = ({ username, onLogout }) => {
+const Navbar = ({ user, onLogout }) => {
   return (
     <div className="nav-container">
       <div className="nav-box">
@@ -10,7 +10,7 @@ const Navbar = ({ username, onLogout }) => {
 
       <div className="profile-container">
         <div className="nav-box">
-          <h2>{username?.name || "Guest"}</h2>
+          <h2>{user?.name||"No user details"} </h2>  
           <img
             src="./images/profile.png"
             alt="profile"
