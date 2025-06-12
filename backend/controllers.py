@@ -3,15 +3,15 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from dbSchema.userSchema import User
 from dbSchema.ImageSchema import Image
 import base64
-from base64 import b64decode
-from datetime import datetime
+import time
+import traceback
 #Register
 def handle_register(data, user_cl):
     username = data.get("username")
     email = data.get("email")
     password = data.get("password")
     confirm_password = data.get("confirmPassword")
-
+    id=str(int(time.time() * 1000))
     if not username or not email or not password or not confirm_password:
         return {"success": False, "message": "All fields are required!"}
 
@@ -23,6 +23,7 @@ def handle_register(data, user_cl):
 
     hashed_password = generate_password_hash(password)
     newuser=User(
+        _id=id,
         username= username,
         email= email,
         password= hashed_password
@@ -67,30 +68,65 @@ def showtable(user_cl):
     return render_template('index.html', users=user_list)
 
 
-def handleSetImage(data,image_cl,user_id):
-    filename=data["filename"]
-    content_type=data["content_type"]
-    image=data["image"]
-    binary=image.read()
-    encodedImage=base64.b64encode(binary).decode('utf-8')
-    id=datetime.now()
-    print(id)
-    newImage=Image(
-        _id=str(id),
-        filename=filename,
-        content_type=content_type,
-        imageFile=encodedImage,
-        user_id=user_id
-    )
+def handleSetImage(image,filename,content_type,image_cl,userid):
+    # filename=data["filename"]
+    # content_type=data["content_type"]
+    try:
+        print("Handling Image...")
+        print(f"Filename: {filename}")
+        print(f"Content Type: {content_type}")
 
-    image_cl.insert_one(newImage)
-    return jsonify({"success":True,"message":"Image uploaded successfully","imageID":str(id)})
+        # Read the image data
+        binary = image.read()
+        print(f"Binary data length: {len(binary)}")
+
+        encodedImage = base64.b64encode(binary).decode('utf-8')
+        print(f"Encoded image (base64): {encodedImage[:50]}...")  # Print only the start to avoid massive output
+
+        id = str(int(time.time() * 1000))
+        print(f"Image ID: {id}")
+        newImage=Image(
+            _id=id,
+            filename=filename,
+            content_type=content_type,
+            imageFile=encodedImage,
+            user_id=userid
+        )
+        # Simulating storing image (in real case, store it in DB or file system)
+        image_cl.insert_one(newImage.to_mongo().to_dict())
+
+        return jsonify({
+            "success": True,
+            "message": "Image uploaded successfully",
+            "imageID": id
+        })
+
+    except Exception as e:
+        print("Error in handleSetImage:", e)
+        traceback.print_exc()  # This will give us more detailed logs
+        return jsonify({"success": False, "message": f"Error handling image : {e}"}), 500
 
 def handleGetImage(data,image_cl):
-    
     image=image_cl.find({"_id":data._id})
-    image=b64decode(image["imageFile"])
+    image=base64.b64decode(image["imageFile"])
     if image:
         return jsonify({"success":True,"imageID":image._id,"image":image["imageFile"]})
     else:
         return jsonify({"success":False,"message":"Image not found"})
+    
+def handleGetImageList(image_cl,user_id):
+    images=image_cl.find({"user_id":user_id})
+    imageList=[]
+    try:
+
+        for image in images:
+            imageList.append({
+                "_id": image["_id"],
+                "filename":image["filename"],
+                "imageFile":image["imageFile"]
+            })
+        return imageList
+    
+    
+    except Exception as e:
+        return jsonify({"Success":"false","message":f"Error in getting image list: {e}"}),500

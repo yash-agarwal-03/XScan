@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from "react";
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from "reactstrap";
 import { useDropzone } from "react-dropzone";
-
+import { SetImage } from "../../api/Api";
 const UploadModal = ({ isOpen, toggle }) => {
     const [selectedFile, setSelectedFile] = useState(null);
 
@@ -20,6 +20,7 @@ const UploadModal = ({ isOpen, toggle }) => {
     const handleUpload = () => {
         if (selectedFile) {
             console.log("Uploading file:", selectedFile);
+            SetImage(selectedFile); // Assuming SetImage is a function to handle the upload
             toggle(); // Close modal after upload
         }
     };

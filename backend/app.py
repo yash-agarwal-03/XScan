@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request, session
 from flask_cors import CORS
-
+import traceback
 from pymongo import MongoClient
 from controllers import *
 
@@ -41,24 +41,40 @@ def getusers():
 
 @app.route('/api/setImage',methods=['POST'])
 def setImage():
-    data=request.get_json()
-    user_id=session["user"]["email"]
-    response=handleSetImage(data,image_cl,user_id)
+    try:
+        # print("thisis debug",request.files)
+        # print("thisis debug",request.form)
+        if "image" not in request.files:
+            return jsonify({"success":False,"message":"No image provided"}),400
 
-    return response
+        image=request.files["image"]
+        filename=request.form.get("filename")
+        content_type=request.form.get("content_type")
+        userid=request.form.get("userId")
+        response=handleSetImage(image,filename,content_type,image_cl,userid)
+        
+        return response
+    except Exception as e:
+        print("Error:", e)
+        traceback.print_exc()  # Print stack trace to the console for debugging
+        return jsonify({"success": False, "message": f"Server Error : {e}"}), 500
+
 
 
 @app.route('/api/getImage',methods=['GET'])
 def getImage():
     data= request.get_json()
+    
     response=handleGetImage(data,image_cl)
     return response
 
-@app.route('/api/getImageList',methods=['GET'])
+@app.route('/api/getUserImageList',methods=['GET'])
 def getImageList():
-    user_id=session["user"]["email"]
+    user_id=request.headers.get("userid")
+    if not user_id:
+        return jsonify({"success": False, "message": "User ID not provided"}), 400
     response=handleGetImageList(image_cl,user_id)
-    return jsonify(response)
+    return (response)
 
 if __name__ == '__main__':
     app.run(debug=True)
