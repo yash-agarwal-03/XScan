@@ -1,6 +1,7 @@
 import React from "react";
 import "./forms.css";
 import { Register } from "../../api/Api";
+import showToast from "../common/Toaster";
 const RegForm = () => {
     const handleSubmit = async (event) => {
             console.log("register submit hit")
@@ -14,7 +15,7 @@ const RegForm = () => {
                 confirmPassword:form[3].value
             }
             const response= await Register(data);
-            alert(response.message);
+            showToast(response.success?("Success"):("Error"),response.success?("Success"):("Error"),response.message);
     };
     return (
         <div className="formcontainer">

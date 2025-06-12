@@ -1,58 +1,83 @@
-.container{
+.container {
+    background: linear-gradient(-40deg, #179186, #7EE090);
     position: absolute;
-    top:50%;
-    left:50%;
+    top: 50%;
+    left: 50%;
     transform: translate(-50%, -50%);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    max-width: fit-content;
+    padding: 3rem;
+    border-radius: 1rem;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
 }
-.container h1{
-    margin: 0;
-}
-.buttonbar{
+
+.formcontainer {
+    background-color: #ffffff;
+    border-radius: 1rem;
+    padding: 2rem;
     width: 100%;
-    display: flex;
+    max-width: 400px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
-.buttonbar button{
-    width: 50%;
-    height: 2rem;
+
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.button-group button {
+    width: 100%;
+    max-width: 150px;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: 0.3s ease-in-out;
+    background-color: #f1f1f1;
+}
+
+.button-group button:hover,
+.button-group .active-btn {
+    background-color: #179186;
+    color: white;
+}
+.button-group .inactive-btn {
+    background-color: #179187;
+    color: white;
+}
+.form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.form input {
+    height: 2.5rem;
+    margin: 0.5rem 0;
+    padding: 0 1rem;
     font-size: 1rem;
-    background-color: #f9f9f9;
+    border-radius: 0.5rem;
     border: 1px solid #ccc;
-    border-radius: 5px;
-    margin: 2%;
-    
 }
-.formcontainer{
-    font-size: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: fit-content;
-    padding: 20px;
-    margin: 2%;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    background-color: #f9f9f9;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+.form input::placeholder {
+    color: #888;
+    opacity: 1;
 }
-.form{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
+
+.form button {
+    height: 2.5rem;
+    margin-top: 1rem;
+    background-color: #179186;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    transition: 0.3s;
 }
-.form input{
-    height:1.5rem;
-    margin: 2%;
-}
-.form button{
-    margin-top: 2%;
-    height: 2rem;
-    width: 100%;
+
+.form button:hover {
+    background-color: #13776d;
 }

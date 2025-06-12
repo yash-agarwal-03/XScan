@@ -1,4 +1,6 @@
 import toastr from "toastr";
+import "toastr/build/toastr.min.css";
+
 
 let showToast = (type, title, message) => {
   toastr.options = {

@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "reactstrap";
 import UploadModal from "./UploadModal";
-import ReportCard from "./reportCard";
 import Navbar from "./navbar";
-
+import ReportCard from "./reportCard";
+import ImageList from "./imageList";
+import { Link } from "react-router-dom";
 const Dashboard = () => {
     const [modalOpen, setModalOpen] = useState(false);
     const navigate = useNavigate();
@@ -41,8 +42,13 @@ const Dashboard = () => {
             {/* REPORT CARD Mapping Loop */}
             <h1 className="ms-4 mb-5">Reports</h1>
             <ReportCard />
-        </div>
-    );
-}
+            <Link to="/imageList">
+              <button className="ms-4 mb-5 p-1" style={{ width: "10rem", backgroundColor: "white", color: "black", borderRadius: "1rem" }}>
+                View Image List
+              </button>
+            </Link>
+      </div>
+  );
+};
 
 export default Dashboard;
