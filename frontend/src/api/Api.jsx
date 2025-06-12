@@ -29,7 +29,7 @@ const SetImage = async (image) => {
     formData.append("filename", image.name);
     formData.append("content_type", image.type);
     formData.append("userId", user.email);
-    const response = await axios.post("http://localhost:5000/api/setImage", formData, {
+    const response = await axios.post("/api/setImage", formData, {
         headers: {
           "Content-Type": "multipart/form-data"
         }

@@ -61,6 +61,7 @@ def setImage():
 
 
 
+
 @app.route('/api/getImage',methods=['GET'])
 def getImage():
     data= request.get_json()
