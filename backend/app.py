@@ -3,7 +3,9 @@ from flask_cors import CORS
 import traceback
 from pymongo import MongoClient
 from controllers import *
-
+import base64
+from keras.models import load_model
+ml_model = load_model('MLmodel/model.h5')
 app=Flask(__name__)
 CORS(app)
 app.secret_key = 'your_secret_key'
@@ -60,8 +62,6 @@ def setImage():
         return jsonify({"success": False, "message": f"Server Error : {e}"}), 500
 
 
-
-
 @app.route('/api/getImage',methods=['GET'])
 def getImage():
     data= request.get_json()
@@ -76,6 +76,28 @@ def getImageList():
         return jsonify({"success": False, "message": "User ID not provided"}), 400
     response=handleGetImageList(image_cl,user_id)
     return (response)
+
+@app.route("/api/analyze",methods=["GET"])
+def analyzeImage():
+    data=request.get_json()
+    imageid=data.get("image_id")
+    wantEmail=data.get("wantEmail")
+    if wantEmail:
+        email=data.get("email")
+    req={"imageid":imageid,"wantEmail":wantEmail,"email":email or None}
+    image=image_cl.find_one({"_id":imageid})
+    if image:
+        image=base64.b64decode(image)
+        result=ml_model.predict(image)
+        if result:
+            print(f'Image analyzed: {result}')
+            return jsonify({"Request":req,"Success:":True,"Result":result})
+        else:
+            print("Could not analyze the image")
+            return jsonify({"Request":req,f"Success":False,"Message":"Could not analyze"})
+    else:
+        print("Image not found")
+    return jsonify({"Request":req,f"Success":False,"Message":"Something went wrong"})
 
 if __name__ == '__main__':
     app.run(debug=True)
